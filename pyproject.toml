@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "acmebot-security-lab"
+version = "0.1.0"
+description = "Intro to AI security: attack and guard a vulnerable support chatbot"
+authors = ["Herman Sugi Harto <hermansh.id@gmail.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+openai = ">=1.50"
+
+[build-system]
+requires = ["poetry-core>=1.9"]
+build-backend = "poetry.core.masonry.api"

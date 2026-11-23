@@ -3,10 +3,10 @@
 Chatbot toko online (RAG + SQL + email + file) yang sengaja rentan. Serang, pasang guard, bandingkan.
 
 ```bash
-pip install -r requirements.txt
+poetry install
 export OPENAI_API_KEY=sk-...        # pakai project key dengan spend limit kecil
-python attacks.py                   # 7 serangan + 2 tes normal, tanpa guard vs dengan guard
-python chat.py                      # coba sendiri (tambah --guarded untuk versi aman)
+poetry run python attacks.py   # 7 serangan + 2 tes normal, tanpa guard vs dengan guard
+poetry run python chat.py      # coba sendiri (tambah --guarded untuk versi aman)
 ```
 
 | File | Isi |
