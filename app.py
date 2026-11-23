@@ -5,11 +5,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
+from dotenv import load_dotenv
 from openai import OpenAI
 
+load_dotenv()
+
 BASE = Path(__file__).parent
-MODEL = os.getenv("OPENAI_MODEL", "gpt-5-mini")
-client = OpenAI()
+MODEL = os.getenv("MODEL", "deepseek/deepseek-v3.2")
+client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=os.environ["OPENROUTER_API_KEY"])
 
 BASE_PROMPT = """You are AcmeBot, customer support for Acme Store (Indonesian online shop).
 Tools: sql_query (SQLite), send_email, read_file.
@@ -133,9 +136,7 @@ class Bot:
             return f"[blocked] {why}"
         messages = [{"role": "system", "content": self.g.system_prompt},
                     {"role": "user", "content": f"Context:\n{self.retrieve(message, role)}\n\nCustomer: {message}"}]
-        extra = {"reasoning_effort": "low"} if MODEL.startswith("gpt-5") else {}
-        if self.g.max_tokens:
-            extra["max_completion_tokens"] = self.g.max_tokens
+        extra = {"max_tokens": self.g.max_tokens} if self.g.max_tokens else {}
         answer = ""
         for _ in range(self.g.max_steps):
             msg = client.chat.completions.create(model=MODEL, messages=messages, tools=TOOLS, **extra).choices[0].message
