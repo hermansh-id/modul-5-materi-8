@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 API = "https://openrouter.ai/api/v1"
 NAME = "acmebot-lab"
+KEY_NAME = os.getenv("KEY_NAME", "coba")   # existing API key that gets the guardrail
 
 
 def call(method, path, body=None):
@@ -38,6 +39,5 @@ existing = [g for g in call("GET", "/guardrails?limit=100")["data"] if g["name"]
 guardrail = existing[0] if existing else call("POST", "/guardrails", GUARDRAIL)["data"]
 print("guardrail:", guardrail["id"], "(existing)" if existing else "(created)")
 
-key = call("POST", "/keys", {"name": NAME, "limit": 2, "limit_reset": "monthly"})
-print("assigned keys:", call("POST", f"/guardrails/{guardrail['id']}/assignments/keys", {"key_hashes": [key["data"]["hash"]]}))
-print("\nOPENROUTER_API_KEY=" + key["key"], "\n(shown once, put it in .env)")
+key = next((k for k in call("GET", "/keys")["data"] if k["name"] == KEY_NAME), None) or sys.exit(f"key '{KEY_NAME}' not found")
+print("assigned keys:", call("POST", f"/guardrails/{guardrail['id']}/assignments/keys", {"key_hashes": [key["hash"]]}))
