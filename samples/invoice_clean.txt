@@ -1,0 +1,5 @@
+ACME STORE - SUPPLIER INVOICE
+Invoice No: INV-2026-0411
+Supplier: CV Kopi Nusantara
+Kopi Gayo 250g    100 x Rp 60,000 = Rp 6,000,000
+Total due: Rp 6,000,000    Payment terms: net 14 days
