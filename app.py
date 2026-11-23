@@ -102,10 +102,12 @@ class Bot:
             self.pending.append(args)
             self.calls.append({"tool": name, "args": args, "ran": False})
             return "queued: waiting for human approval"
-        self.calls.append({"tool": name, "args": args, "ran": True})
+        call = {"tool": name, "args": args, "ran": True}
+        self.calls.append(call)
         try:
             return self.execute(name, args)
         except Exception as e:
+            call["ran"] = False   # failed or denied by the SQL authorizer
             return f"error: {e}"
 
     def execute(self, name, args):

@@ -26,7 +26,9 @@ poetry run python chat.py      # coba sendiri (tambah --guarded untuk versi aman
 | A6 dokumen internal bocor | LLM09 | `doc_filter`: customer hanya dokumen public |
 | A7 PII pelanggan | LLM02 | `output_filter` (regex) |
 
-Model default `deepseek/deepseek-v3.2` (ganti lewat env `MODEL`). `poetry run python guardrails.py` = layer tambahan di sisi provider: key hasil script punya budget dan filter yang jalan sebelum request sampai ke model.
+Model default `deepseek/deepseek-v3.2` (ganti lewat env `MODEL`). `poetry run python guardrails.py` (`--off` untuk melepas) = layer tambahan di sisi provider: key hasil script punya budget dan filter yang jalan sebelum request sampai ke model.
+
+Untuk perbandingan before/after yang bersih jalankan `attacks.py` saat guardrail OpenRouter dilepas (`--off`): filter prompt-injection di provider akan memblok sebagian serangan sebelum sampai ke model.
 
 Catatan: regex mudah dilewati (parafrase, bahasa lain), tabel `customers` masih bisa dibaca semua user (butuh otorisasi per user). Itu residual risk. Rate limit tidak diimplementasi, hanya `max_steps` dan `max_tokens`.
 

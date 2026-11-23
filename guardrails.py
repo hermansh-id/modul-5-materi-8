@@ -40,4 +40,5 @@ guardrail = existing[0] if existing else call("POST", "/guardrails", GUARDRAIL)[
 print("guardrail:", guardrail["id"], "(existing)" if existing else "(created)")
 
 key = next((k for k in call("GET", "/keys")["data"] if k["name"] == KEY_NAME), None) or sys.exit(f"key '{KEY_NAME}' not found")
-print("assigned keys:", call("POST", f"/guardrails/{guardrail['id']}/assignments/keys", {"key_hashes": [key["hash"]]}))
+action = "assignments/keys/remove" if "--off" in sys.argv else "assignments/keys"
+print(action, call("POST", f"/guardrails/{guardrail['id']}/{action}", {"key_hashes": [key["hash"]]}))
